@@ -23,5 +23,9 @@ angular.module('league.club', ['ui.state'])
  * And of course we define a controller for our route.
  */
 .controller('ClubsCtrl', function ClubsController($scope) {
+  $scope.clubs = [
+    {name: "hard coded club 1", contact_officer: "hard coded officer 1"},
+    {name: "hard coded club 2", contact_officer: "hard coded officer 2"}
+  ];
 });
  
