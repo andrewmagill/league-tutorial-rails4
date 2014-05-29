@@ -57,9 +57,4 @@ class ClubsController < ApplicationController
     def club_params
       params.require(:club).permit(:name, :contact_officer, :date_created)
     end
-
-    # redirect html format requests to home page
-    def intercept_html_requests
-      #redirect_to('/') if request.format == Mime::HTML
-    end
 end
