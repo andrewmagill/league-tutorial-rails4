@@ -14,3 +14,11 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# ngbp stuff
+*.sw*
+*~
+build/
+bin/
+node_modules/
+vendor/
