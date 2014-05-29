@@ -1,24 +1,20 @@
 class ClubsController < ApplicationController
+  before_filter :intercept_html_requests
+  layout false
+  respond_to :json
   before_action :set_club, only: [:show, :edit, :update, :destroy]
 
   # GET /clubs
   # GET /clubs.json
   def index
     @clubs = Club.all
+    render json: @clubs
   end
 
   # GET /clubs/1
   # GET /clubs/1.json
   def show
-  end
-
-  # GET /clubs/new
-  def new
-    @club = Club.new
-  end
-
-  # GET /clubs/1/edit
-  def edit
+    render json: @club
   end
 
   # POST /clubs
@@ -26,39 +22,29 @@ class ClubsController < ApplicationController
   def create
     @club = Club.new(club_params)
 
-    respond_to do |format|
-      if @club.save
-        format.html { redirect_to @club, notice: 'Club was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @club }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @club.errors, status: :unprocessable_entity }
-      end
+    if @club.save
+      render json: @club, status: :created
+    else
+      render json: @club.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /clubs/1
   # PATCH/PUT /clubs/1.json
   def update
-    respond_to do |format|
-      if @club.update(club_params)
-        format.html { redirect_to @club, notice: 'Club was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @club.errors, status: :unprocessable_entity }
-      end
+    if @club.update(club_params)        
+      head :no_content
+    else
+      render json: @club.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /clubs/1
   # DELETE /clubs/1.json
   def destroy
-    @club.destroy
-    respond_to do |format|
-      format.html { redirect_to clubs_url }
-      format.json { head :no_content }
-    end
+    @club.destroy    
+    
+    head :no_content
   end
 
   private
@@ -70,5 +56,10 @@ class ClubsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def club_params
       params.require(:club).permit(:name, :contact_officer, :date_created)
+    end
+
+    # redirect html format requests to home page
+    def intercept_html_requests
+      #redirect_to('/') if request.format == Mime::HTML
     end
 end
