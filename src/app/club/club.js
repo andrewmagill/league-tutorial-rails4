@@ -53,6 +53,10 @@ angular.module('league.club', [
   $scope.editClub = function(club) {
     $state.transitionTo('club', { clubId: club.id });
   };
+  
+  $scope.newClub = function() {
+    $state.transitionTo('club');
+  };
 })
 
 .controller('ClubCtrl', function ClubController( $scope, ClubRes, $state, $stateParams ) {
@@ -62,14 +66,31 @@ angular.module('league.club', [
     $scope.club = ClubRes.get({id: $scope.clubId});
   } else {
     $scope.club = new ClubRes();
-  }  
+  }
+  
+  $scope.submit = function() {
+    if ($scope.clubId) {
+      $scope.club.$update(function(response) {
+        $state.transitionTo('clubs');
+      });
+    }
+    else {
+      $scope.club.$save(function(response) {
+        $state.transitionTo('clubs');
+      });
+    }
+  };
+  
+  $scope.cancel = function() {
+    $state.transitionTo('clubs');
+  };
 })
 
 /**
  * Add a resource to allow us to get at the server
  */
 .factory( 'ClubRes', function ( $resource )  {
-  return $resource('../clubs/:id.json', {id:'@id'});
+  return $resource("../clubs/:id.json", {id:'@id'}, {'update': {method:'PUT'}});
 })
 ;
  
