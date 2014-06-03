@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_with_protection(object, parameters = {})
-    render parameteres.merge(content_type: 'applications/json', text: ")]}',\n" + object.to_json)
+    render parameters.merge(content_type: 'applications/json', text: ")]}',\n" + object.to_json)
   end
   
 protected
