@@ -8,7 +8,7 @@ describe('Clubs list controller', function() {
   beforeEach(angular.mock.module('league'));
   
   //mock the controller for the same reason and include $rootScope and $controller
-  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+  beforeEach(angular.mock.inject(function($rootScope, $controller, _$httpBackend_) {
     //create an empty scope
     scope = $rootScope.$new();
     
@@ -25,12 +25,13 @@ describe('Clubs list controller', function() {
   // test start here
   it('Has two clubs defined', function() {
     scope.$digest();
-    scope.httpBackend.flsuh();
+    scope.httpBackend.flush();
     expect(scope.clubs.length).toEqual(2);
   });
   
-  it('First club\'s contact office is as expected', funciton () {
+  it('First club\'s contact office is as expected', function () {
     scope.$digest();
     scope.httpBackend.flush();
-    expect(scope.clubs[0].content_officer).toEqual('Officer 1);
+    expect(scope.clubs[0].contact_officer).toEqual('Officer 1');
+  });
 });
